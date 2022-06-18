@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Fabrica } from './naves/fabrica';
 
-import * as fabrica from './naves/fabrica';
+
 
 class App extends Component {
 
@@ -16,10 +17,12 @@ class App extends Component {
             vuelo: "",
         };
 
-        this.nave = { velocidad: 20};
+        this.fabrica = new Fabrica();
 
         this.addNave = this.addNave.bind(this);
         this.handleChange = this.handleChange.bind(this);
+
+        this.crearNaveEnFabrica = this.crearNaveEnFabrica.bind(this);
     }
 
     addNave(e) {
@@ -53,10 +56,26 @@ class App extends Component {
         e.preventDefault();
     }
 
+    //
     componentDidMount() {
         console.log('Componente montado');
-        this.nave = fabrica.crearNave();
+        
+        this.crearNaveEnFabrica("62ad3d10c2d7e997c10e6e5c");
+        this.crearNaveEnFabrica("62ad5576772bb1bb3b51458a");
+        
         this.fetchNave();
+    }
+
+    crearNaveEnFabrica(id) {
+        console.log('Creando nave en fabrica');
+        fetch('/api/nave/' + id)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                const nave = this.fabrica.crearNave(data)
+                console.log(nave);
+                nave.iniciar();
+            });
     }
 
     fetchNave() {
@@ -85,11 +104,11 @@ class App extends Component {
                     <input name="vuelo" value={this.vuelo} onChange={this.handleChange} type="text"></input>
                     <button>Agregar</button>
                 </form>
-                
-                
+
+
                 <div>
                     <h1>NAVE</h1>
-                    <h4>{this.nave.velocidad}</h4>
+
                 </div>
             </div>
 
