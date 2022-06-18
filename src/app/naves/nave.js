@@ -1,8 +1,12 @@
 export class Nave{
-    constructor(tipo,nombre){
+    constructor(tipo,nombre,sistema,ton,pais,transporte,vuelo){
         this.tipo = tipo;
         this.nombre = nombre;
-        this.velocidad = 0;
+        this.sistema = sistema;
+        this.ton = ton;
+        this.pais = pais;
+        this.transporte = transporte; 
+        this.vuelo = vuelo;
     }
 
     iniciar(){
